@@ -1,0 +1,19 @@
+<!-- <div>
+  <span>
+    LongBottom Transport
+  </span>
+  <div>
+    <button>
+      Sign In
+    </button>
+  </div>
+</div> -->
+
+<mat-toolbar color="primary">
+  <span class="company-name">Longbottom Transport</span>
+  <span class="spacer"></span>
+  <button mat-button *ngIf="!(isAuthenticated$ | async)" (click)="openSignInDialog()">Sign In</button>
+  <button mat-button *ngIf="(isAuthenticated$ | async)" (click)="logout()">Logout</button>
+
+</mat-toolbar>
+
