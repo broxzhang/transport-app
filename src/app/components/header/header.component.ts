@@ -19,7 +19,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
-    console.log(this.isAuthenticated$)
+    // console.log(this.isAuthenticated$)
+    this.authService.loginRequired$.subscribe(required => {
+      if (required) {
+        this.openSignInDialog();
+      }
+    });
   }
 
   openSignInDialog(): void {

@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, timer, Subscription } from 'rxjs';
-import { catchError, tap, switchMap } from 'rxjs/operators';
+import { catchError, tap, switchMap, } from 'rxjs/operators';
 
 interface LoginResponse {
-  token: string;
+  access_token: string;
+  token_type: string;
+  user: {
+    id: string;
+    login: string;
+    avatar: string;
+  };
 }
 
 @Injectable({
@@ -20,14 +26,21 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // token expiration or 401 error, need to re-login
+  private _loginRequired = new BehaviorSubject<boolean>(false);
+  public loginRequired$ = this._loginRequired.asObservable();
+
 
   login(username: string, password: string): Observable<LoginResponse> {
     const url = `${this.apiUrl}/login`;
     const payload = { login: username, password: password };
     return this.http.post<LoginResponse>(url, payload).pipe(
+
       tap((response: LoginResponse) => {
-        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('authToken', response.access_token);
         this._isAuthenticated.next(true);
+        // reset the login required flag
+        this._loginRequired.next(false);
         this.startTokenRenewal();
       }),
       catchError(this.handleError)
@@ -40,9 +53,14 @@ export class AuthService {
     this._isAuthenticated.next(false);
     if (this.tokenRenewalSubscription) {
       this.tokenRenewalSubscription.unsubscribe();
+      this.tokenRenewalSubscription = null;
     }
+
+    // set the login required flag
+    this._loginRequired.next(true);
   }
 
+// token renewal every 5 minutes
 
   private startTokenRenewal(): void {
     if (this.tokenRenewalSubscription) {
@@ -55,11 +73,13 @@ export class AuthService {
       .subscribe(
         (newToken: string) => {
           localStorage.setItem('authToken', newToken);
+          console.log('Token renewed');
         },
         (error) => {
-          // 如果返回 401，则自动登出，并在应用中弹出登录窗（这里可以扩展通知逻辑）
           if (error.status === 401) {
             this.logout();
+          } else {
+            console.error('Token renewal error', error);
           }
         }
       );
@@ -68,7 +88,7 @@ export class AuthService {
   renewToken(): Observable<string> {
     const url = `${this.apiUrl}/status`;
     return this.http.get<{ token: string }>(url).pipe(
-      tap(() => console.log('Token renewed')),
+      tap(() => console.log('Calling renewToken API')),
       switchMap(response => {
         return new Observable<string>(observer => {
           observer.next(response.token);
