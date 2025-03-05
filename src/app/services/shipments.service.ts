@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 export interface Shipment {
-  id: number;
+  id: string;
   pickupDate: string;
   pickupLocation: string;
   delivery_date: string;
@@ -34,7 +34,7 @@ export class ShipmentsService {
       );
   }
 
-  updateShipmentStatus(shipmentId: number, status: string): Observable<any> {
+  updateShipmentStatus(shipmentId: string, status: string): Observable<any> {
     const url =
       `${this.apiUrl}/status`;
     const payload = {

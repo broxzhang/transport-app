@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError, timer, Subscription } from 'rxjs';
 import { catchError, tap, switchMap, } from 'rxjs/operators';
 
-interface LoginResponse {
+export interface LoginResponse {
   access_token: string;
   token_type: string;
   user: {
