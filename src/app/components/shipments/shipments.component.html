@@ -1,6 +1,14 @@
 <!-- <p>shipments works!</p> -->
 <div class="shipments">
-  <h2>Shipments</h2>
+  <div class="table-header">
+    <h2>Shipments</h2>
+    <span class="spacer"></span>
+
+    <button mat-icon-button (click)="onRefresh()" aria-label="Refresh Shipments">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
   <table mat-table [dataSource]="shipments" class="mat-elevation-z8">
     <ng-container matColumnDef="pickup_date">
       <th mat-header-cell *matHeaderCellDef> Pickup Date </th>

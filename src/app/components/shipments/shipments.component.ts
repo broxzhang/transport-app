@@ -48,6 +48,11 @@ export class ShipmentsComponent implements OnInit {
     });
   }
 
+  // fix #2 add refresh button to get the shipments
+  onRefresh(): void {
+    this.getShipments();
+  }
+
   // use select dropdown to change the shipment status
   onStatusChange(shipment: Shipment, newStatus: string): void {
     if (!this.isAuth) {

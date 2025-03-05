@@ -5,7 +5,12 @@
     Contacts
   </a>
 
-  <ng-container *ngIf="isAuthenticated$ | async">
+  <!-- <ng-container *ngIf="isAuthenticated$ | async">
     <a mat-list-item routerLink="/shipments">Shipments</a>
-  </ng-container>
+  </ng-container> -->
+
+  <!-- Fixing #1 Make the Shipments item visible in the open zone -->
+
+  <a mat-list-item routerLink="/shipments">Shipments</a>
+
 </mat-nav-list>

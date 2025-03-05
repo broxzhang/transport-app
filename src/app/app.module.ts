@@ -22,7 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatIconModule } from '@angular/material/icon';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { ShipmentsComponent } from './components/shipments/shipments.component';
@@ -55,7 +55,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     MatInputModule,
     MatTableModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [
     {
