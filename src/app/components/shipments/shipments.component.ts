@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ShipmentsService } from './../../services/shipments.service';
 import { Component, OnInit } from '@angular/core';
 import { Shipment } from 'src/app/services/shipments.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-shipments',
   templateUrl: './shipments.component.html',
@@ -18,7 +18,8 @@ export class ShipmentsComponent implements OnInit {
 
   constructor(
     private shipmentsService: ShipmentsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -47,20 +48,45 @@ export class ShipmentsComponent implements OnInit {
     });
   }
 
-  // update the shipment status
-  updateShipmentStatus(shipmentId: number, newStatus: string): void {
-    this.shipmentsService.updateShipmentStatus(shipmentId, newStatus).subscribe({
+  // use select dropdown to change the shipment status
+  onStatusChange(shipment: Shipment, newStatus: string): void {
+    if (!this.isAuth) {
+      return;
+    }
+    this.shipmentsService.updateShipmentStatus(shipment.id, newStatus).subscribe({
       next: () => {
-        // update the shipment status in the shipments array
-        const shipment = this.shipments.find((s) => s.id === shipmentId);
-        if (shipment) {
-          shipment.status = newStatus;
-        }
+        shipment.status = newStatus;
+
+        // show a snackbar message
+        this.snackBar.open(`Shipment ${shipment.id} status updated to ${newStatus}`, 'Close', {
+          duration: 2000
+        });
       },
       error: (error) => {
-        console.error('ShipmentsComponent error', error);
+        console.error('Error updating shipment status', error);
+        // show a snackbar message
+        this.snackBar.open(`Error updating shipment ${shipment.id} status`, 'Close', {
+          duration: 2000
+        });
       }
     });
   }
+
+
+  // update the shipment status
+  // updateShipmentStatus(shipmentId: number, newStatus: string): void {
+  //   this.shipmentsService.updateShipmentStatus(shipmentId, newStatus).subscribe({
+  //     next: () => {
+  //       // update the shipment status in the shipments array
+  //       const shipment = this.shipments.find((s) => s.id === shipmentId);
+  //       if (shipment) {
+  //         shipment.status = newStatus;
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error('ShipmentsComponent error', error);
+  //     }
+  //   });
+  // }
 
 }

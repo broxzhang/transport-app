@@ -19,12 +19,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { ShipmentsComponent } from './components/shipments/shipments.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ShipmentsComponent } from './components/shipments/shipments.component';
     MenuComponent,
     LoginDialogComponent,
     ContactsComponent,
-    ShipmentsComponent
+    ShipmentsComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,9 @@ import { ShipmentsComponent } from './components/shipments/shipments.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     {

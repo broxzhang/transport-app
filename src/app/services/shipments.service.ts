@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -38,11 +38,11 @@ export class ShipmentsService {
     const url =
       `${this.apiUrl}/status`;
     const payload = {
-      id: shipmentId,
-      status
+     status
     };
 
-    return this.http.post(url, payload).pipe(
+    const params = new HttpParams().set('uuid', shipmentId);
+    return this.http.post(url, payload, { params }).pipe(
       catchError(this.handleError)
     );
   }

@@ -14,7 +14,6 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(authReq);
     }
 
-    // 如果没有 token，直接传递请求
     return next.handle(req);
   }
 }
